@@ -1,0 +1,578 @@
+{
+  "Bagerhat": {
+    "division": "Khulna",
+    "coastal": true,
+    "vulnerability": 0.92,
+    "lat": 22.1492,
+    "lng": 89.7114,
+    "flood_mult": 1.24,
+    "crop_mult": 1.236
+  },
+  "Bandarban": {
+    "division": "Chittagong",
+    "coastal": false,
+    "vulnerability": 0.5,
+    "lat": 21.7378,
+    "lng": 92.2851,
+    "flood_mult": 0.925,
+    "crop_mult": 0.9
+  },
+  "Barguna": {
+    "division": "Barisal",
+    "coastal": true,
+    "vulnerability": 0.95,
+    "lat": 22.1231,
+    "lng": 90.1015,
+    "flood_mult": 1.262,
+    "crop_mult": 1.26
+  },
+  "Barisal": {
+    "division": "Barisal",
+    "coastal": true,
+    "vulnerability": 0.9,
+    "lat": 22.7989,
+    "lng": 90.4363,
+    "flood_mult": 1.225,
+    "crop_mult": 1.22
+  },
+  "Bhola": {
+    "division": "Barisal",
+    "coastal": true,
+    "vulnerability": 0.98,
+    "lat": 22.3341,
+    "lng": 90.723,
+    "flood_mult": 1.285,
+    "crop_mult": 1.284
+  },
+  "Bogra": {
+    "division": "Rajshahi",
+    "coastal": false,
+    "vulnerability": 0.25,
+    "lat": 24.8257,
+    "lng": 89.373,
+    "flood_mult": 0.738,
+    "crop_mult": 0.7
+  },
+  "Brahamanbaria": {
+    "division": "Chittagong",
+    "coastal": false,
+    "vulnerability": 0.5,
+    "lat": 23.9306,
+    "lng": 91.0717,
+    "flood_mult": 0.925,
+    "crop_mult": 0.9
+  },
+  "Chandpur": {
+    "division": "Chittagong",
+    "coastal": true,
+    "vulnerability": 0.66,
+    "lat": 23.2263,
+    "lng": 90.7336,
+    "flood_mult": 1.045,
+    "crop_mult": 1.028
+  },
+  "Chittagong": {
+    "division": "Chittagong",
+    "coastal": true,
+    "vulnerability": 0.88,
+    "lat": 22.4694,
+    "lng": 91.754,
+    "flood_mult": 1.21,
+    "crop_mult": 1.204
+  },
+  "Chuadanga": {
+    "division": "Khulna",
+    "coastal": false,
+    "vulnerability": 0.32,
+    "lat": 23.5943,
+    "lng": 88.8499,
+    "flood_mult": 0.79,
+    "crop_mult": 0.756
+  },
+  "Comilla": {
+    "division": "Chittagong",
+    "coastal": false,
+    "vulnerability": 0.5,
+    "lat": 23.4159,
+    "lng": 90.9992,
+    "flood_mult": 0.925,
+    "crop_mult": 0.9
+  },
+  "Cox's Bazar": {
+    "division": "Chittagong",
+    "coastal": true,
+    "vulnerability": 0.9,
+    "lat": 21.5434,
+    "lng": 92.0859,
+    "flood_mult": 1.225,
+    "crop_mult": 1.22
+  },
+  "Dhaka": {
+    "division": "Dhaka",
+    "coastal": false,
+    "vulnerability": 0.36,
+    "lat": 23.7939,
+    "lng": 90.2264,
+    "flood_mult": 0.82,
+    "crop_mult": 0.788
+  },
+  "Dinajpur": {
+    "division": "Rangpur",
+    "coastal": false,
+    "vulnerability": 0.2,
+    "lat": 25.6057,
+    "lng": 88.8083,
+    "flood_mult": 0.7,
+    "crop_mult": 0.66
+  },
+  "Faridpur": {
+    "division": "Dhaka",
+    "coastal": false,
+    "vulnerability": 0.58,
+    "lat": 23.4807,
+    "lng": 89.8223,
+    "flood_mult": 0.985,
+    "crop_mult": 0.964
+  },
+  "Feni": {
+    "division": "Chittagong",
+    "coastal": true,
+    "vulnerability": 0.75,
+    "lat": 22.9611,
+    "lng": 91.4256,
+    "flood_mult": 1.113,
+    "crop_mult": 1.1
+  },
+  "Gaibandha": {
+    "division": "Rangpur",
+    "coastal": false,
+    "vulnerability": 0.48,
+    "lat": 25.325,
+    "lng": 89.4943,
+    "flood_mult": 0.91,
+    "crop_mult": 0.884
+  },
+  "Gazipur": {
+    "division": "Dhaka",
+    "coastal": false,
+    "vulnerability": 0.33,
+    "lat": 24.0762,
+    "lng": 90.4344,
+    "flood_mult": 0.798,
+    "crop_mult": 0.764
+  },
+  "Gopalganj": {
+    "division": "Dhaka",
+    "coastal": false,
+    "vulnerability": 0.62,
+    "lat": 23.1045,
+    "lng": 89.9137,
+    "flood_mult": 1.015,
+    "crop_mult": 0.996
+  },
+  "Habiganj": {
+    "division": "Sylhet",
+    "coastal": false,
+    "vulnerability": 0.48,
+    "lat": 24.3526,
+    "lng": 91.4183,
+    "flood_mult": 0.91,
+    "crop_mult": 0.884
+  },
+  "Jamalpur": {
+    "division": "Mymensingh",
+    "coastal": false,
+    "vulnerability": 0.55,
+    "lat": 24.9767,
+    "lng": 89.8459,
+    "flood_mult": 0.963,
+    "crop_mult": 0.94
+  },
+  "Jessore": {
+    "division": "Khulna",
+    "coastal": false,
+    "vulnerability": 0.42,
+    "lat": 23.0914,
+    "lng": 89.2089,
+    "flood_mult": 0.865,
+    "crop_mult": 0.836
+  },
+  "Jhalokati": {
+    "division": "Barisal",
+    "coastal": true,
+    "vulnerability": 0.85,
+    "lat": 22.5577,
+    "lng": 90.1686,
+    "flood_mult": 1.188,
+    "crop_mult": 1.18
+  },
+  "Jhenaidah": {
+    "division": "Khulna",
+    "coastal": false,
+    "vulnerability": 0.32,
+    "lat": 23.4584,
+    "lng": 89.0394,
+    "flood_mult": 0.79,
+    "crop_mult": 0.756
+  },
+  "Joypurhat": {
+    "division": "Rajshahi",
+    "coastal": false,
+    "vulnerability": 0.2,
+    "lat": 25.0773,
+    "lng": 89.0896,
+    "flood_mult": 0.7,
+    "crop_mult": 0.66
+  },
+  "Khagrachhari": {
+    "division": "Chittagong",
+    "coastal": false,
+    "vulnerability": 0.48,
+    "lat": 23.1277,
+    "lng": 91.9365,
+    "flood_mult": 0.91,
+    "crop_mult": 0.884
+  },
+  "Khulna": {
+    "division": "Khulna",
+    "coastal": true,
+    "vulnerability": 0.95,
+    "lat": 22.2234,
+    "lng": 89.4309,
+    "flood_mult": 1.262,
+    "crop_mult": 1.26
+  },
+  "Kishoreganj": {
+    "division": "Dhaka",
+    "coastal": false,
+    "vulnerability": 0.46,
+    "lat": 24.3783,
+    "lng": 90.9431,
+    "flood_mult": 0.895,
+    "crop_mult": 0.868
+  },
+  "Kurigram": {
+    "division": "Rangpur",
+    "coastal": false,
+    "vulnerability": 0.55,
+    "lat": 25.7963,
+    "lng": 89.6715,
+    "flood_mult": 0.963,
+    "crop_mult": 0.94
+  },
+  "Kushtia": {
+    "division": "Khulna",
+    "coastal": false,
+    "vulnerability": 0.32,
+    "lat": 23.9164,
+    "lng": 89.0193,
+    "flood_mult": 0.79,
+    "crop_mult": 0.756
+  },
+  "Lakshmipur": {
+    "division": "Chittagong",
+    "coastal": true,
+    "vulnerability": 0.8,
+    "lat": 22.8763,
+    "lng": 90.858,
+    "flood_mult": 1.15,
+    "crop_mult": 1.14
+  },
+  "Lalmonirhat": {
+    "division": "Rangpur",
+    "coastal": false,
+    "vulnerability": 0.42,
+    "lat": 26.1261,
+    "lng": 89.194,
+    "flood_mult": 0.865,
+    "crop_mult": 0.836
+  },
+  "Madaripur": {
+    "division": "Dhaka",
+    "coastal": false,
+    "vulnerability": 0.65,
+    "lat": 23.1945,
+    "lng": 90.1667,
+    "flood_mult": 1.038,
+    "crop_mult": 1.02
+  },
+  "Magura": {
+    "division": "Khulna",
+    "coastal": false,
+    "vulnerability": 0.38,
+    "lat": 23.4532,
+    "lng": 89.441,
+    "flood_mult": 0.835,
+    "crop_mult": 0.804
+  },
+  "Manikganj": {
+    "division": "Dhaka",
+    "coastal": false,
+    "vulnerability": 0.42,
+    "lat": 23.8547,
+    "lng": 89.9874,
+    "flood_mult": 0.865,
+    "crop_mult": 0.836
+  },
+  "Maulvibazar": {
+    "division": "Sylhet",
+    "coastal": false,
+    "vulnerability": 0.4,
+    "lat": 24.4776,
+    "lng": 91.909,
+    "flood_mult": 0.85,
+    "crop_mult": 0.82
+  },
+  "Meherpur": {
+    "division": "Khulna",
+    "coastal": false,
+    "vulnerability": 0.28,
+    "lat": 23.8128,
+    "lng": 88.7177,
+    "flood_mult": 0.76,
+    "crop_mult": 0.724
+  },
+  "Munshiganj": {
+    "division": "Dhaka",
+    "coastal": false,
+    "vulnerability": 0.55,
+    "lat": 23.5386,
+    "lng": 90.467,
+    "flood_mult": 0.963,
+    "crop_mult": 0.94
+  },
+  "Mymensingh": {
+    "division": "Mymensingh",
+    "coastal": false,
+    "vulnerability": 0.4,
+    "lat": 24.706,
+    "lng": 90.4633,
+    "flood_mult": 0.85,
+    "crop_mult": 0.82
+  },
+  "Naogaon": {
+    "division": "Rajshahi",
+    "coastal": false,
+    "vulnerability": 0.24,
+    "lat": 24.8858,
+    "lng": 88.7588,
+    "flood_mult": 0.73,
+    "crop_mult": 0.692
+  },
+  "Narail": {
+    "division": "Khulna",
+    "coastal": false,
+    "vulnerability": 0.52,
+    "lat": 23.1249,
+    "lng": 89.5923,
+    "flood_mult": 0.94,
+    "crop_mult": 0.916
+  },
+  "Narayanganj": {
+    "division": "Dhaka",
+    "coastal": false,
+    "vulnerability": 0.38,
+    "lat": 23.7257,
+    "lng": 90.5895,
+    "flood_mult": 0.835,
+    "crop_mult": 0.804
+  },
+  "Narsingdi": {
+    "division": "Dhaka",
+    "coastal": false,
+    "vulnerability": 0.36,
+    "lat": 23.9885,
+    "lng": 90.7593,
+    "flood_mult": 0.82,
+    "crop_mult": 0.788
+  },
+  "Natore": {
+    "division": "Rajshahi",
+    "coastal": false,
+    "vulnerability": 0.24,
+    "lat": 24.4056,
+    "lng": 89.0811,
+    "flood_mult": 0.73,
+    "crop_mult": 0.692
+  },
+  "Nawabganj": {
+    "division": "Rajshahi",
+    "coastal": false,
+    "vulnerability": 0.22,
+    "lat": 24.7661,
+    "lng": 88.3068,
+    "flood_mult": 0.715,
+    "crop_mult": 0.676
+  },
+  "Netrakona": {
+    "division": "Mymensingh",
+    "coastal": false,
+    "vulnerability": 0.5,
+    "lat": 24.8717,
+    "lng": 90.8649,
+    "flood_mult": 0.925,
+    "crop_mult": 0.9
+  },
+  "Nilphamari": {
+    "division": "Rangpur",
+    "coastal": false,
+    "vulnerability": 0.24,
+    "lat": 26.023,
+    "lng": 88.9133,
+    "flood_mult": 0.73,
+    "crop_mult": 0.692
+  },
+  "Noakhali": {
+    "division": "Chittagong",
+    "coastal": true,
+    "vulnerability": 0.87,
+    "lat": 22.5957,
+    "lng": 91.1187,
+    "flood_mult": 1.203,
+    "crop_mult": 1.196
+  },
+  "Pabna": {
+    "division": "Rajshahi",
+    "coastal": false,
+    "vulnerability": 0.35,
+    "lat": 24.0445,
+    "lng": 89.3759,
+    "flood_mult": 0.812,
+    "crop_mult": 0.78
+  },
+  "Panchagarh": {
+    "division": "Rangpur",
+    "coastal": false,
+    "vulnerability": 0.2,
+    "lat": 26.2942,
+    "lng": 88.5625,
+    "flood_mult": 0.7,
+    "crop_mult": 0.66
+  },
+  "Patuakhali": {
+    "division": "Barisal",
+    "coastal": true,
+    "vulnerability": 0.96,
+    "lat": 22.1292,
+    "lng": 90.399,
+    "flood_mult": 1.27,
+    "crop_mult": 1.268
+  },
+  "Pirojpur": {
+    "division": "Barisal",
+    "coastal": true,
+    "vulnerability": 0.87,
+    "lat": 22.5045,
+    "lng": 89.9781,
+    "flood_mult": 1.203,
+    "crop_mult": 1.196
+  },
+  "Rajbari": {
+    "division": "Dhaka",
+    "coastal": false,
+    "vulnerability": 0.52,
+    "lat": 23.7293,
+    "lng": 89.5716,
+    "flood_mult": 0.94,
+    "crop_mult": 0.916
+  },
+  "Rajshahi": {
+    "division": "Rajshahi",
+    "coastal": false,
+    "vulnerability": 0.22,
+    "lat": 24.4494,
+    "lng": 88.6831,
+    "flood_mult": 0.715,
+    "crop_mult": 0.676
+  },
+  "Rangamati": {
+    "division": "Chittagong",
+    "coastal": false,
+    "vulnerability": 0.46,
+    "lat": 22.8056,
+    "lng": 92.289,
+    "flood_mult": 0.895,
+    "crop_mult": 0.868
+  },
+  "Rangpur": {
+    "division": "Rangpur",
+    "coastal": false,
+    "vulnerability": 0.22,
+    "lat": 25.6417,
+    "lng": 89.2271,
+    "flood_mult": 0.715,
+    "crop_mult": 0.676
+  },
+  "Satkhira": {
+    "division": "Khulna",
+    "coastal": true,
+    "vulnerability": 0.93,
+    "lat": 22.1293,
+    "lng": 89.1752,
+    "flood_mult": 1.248,
+    "crop_mult": 1.244
+  },
+  "Shariatpur": {
+    "division": "Dhaka",
+    "coastal": false,
+    "vulnerability": 0.7,
+    "lat": 23.2394,
+    "lng": 90.4374,
+    "flood_mult": 1.075,
+    "crop_mult": 1.06
+  },
+  "Sherpur": {
+    "division": "Mymensingh",
+    "coastal": false,
+    "vulnerability": 0.44,
+    "lat": 25.069,
+    "lng": 90.0797,
+    "flood_mult": 0.88,
+    "crop_mult": 0.852
+  },
+  "Sirajganj": {
+    "division": "Rajshahi",
+    "coastal": false,
+    "vulnerability": 0.42,
+    "lat": 24.4268,
+    "lng": 89.6132,
+    "flood_mult": 0.865,
+    "crop_mult": 0.836
+  },
+  "Sunamganj": {
+    "division": "Sylhet",
+    "coastal": false,
+    "vulnerability": 0.55,
+    "lat": 24.9168,
+    "lng": 91.3484,
+    "flood_mult": 0.963,
+    "crop_mult": 0.94
+  },
+  "Sylhet": {
+    "division": "Sylhet",
+    "coastal": false,
+    "vulnerability": 0.45,
+    "lat": 24.9032,
+    "lng": 92.0109,
+    "flood_mult": 0.888,
+    "crop_mult": 0.86
+  },
+  "Tangail": {
+    "division": "Dhaka",
+    "coastal": false,
+    "vulnerability": 0.38,
+    "lat": 24.353,
+    "lng": 90.0044,
+    "flood_mult": 0.835,
+    "crop_mult": 0.804
+  },
+  "Thakurgaon": {
+    "division": "Rangpur",
+    "coastal": false,
+    "vulnerability": 0.2,
+    "lat": 25.9588,
+    "lng": 88.3596,
+    "flood_mult": 0.7,
+    "crop_mult": 0.66
+  }
+}

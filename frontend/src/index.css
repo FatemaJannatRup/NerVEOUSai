@@ -1,0 +1,436 @@
+/* =========================================================
+   NerVEOUSai — Block-World Theme
+   Pixel-art inspired, chunky bevel borders, voxel color palette.
+   ========================================================= */
+
+:root {
+  --grass: #5fa93c;
+  --grass-dark: #3f7a26;
+  --dirt: #8b5a2b;
+  --dirt-dark: #5c3a1a;
+  --stone: #8a8a8a;
+  --stone-dark: #565656;
+  --stone-light: #b0b0b0;
+  --obsidian: #120f1c;
+  --obsidian-2: #1a1626;
+  --panel: #211c30;
+  --panel-light: #2c2540;
+  --diamond: #4ce9e0;
+  --diamond-dark: #1a8f8a;
+  --gold: #f6c445;
+  --redstone: #ff4b4b;
+  --redstone-dark: #a52222;
+  --emerald: #3ddc84;
+  --emerald-dark: #1f9a54;
+  --enderman: #b06aff;
+  --text-primary: #f4f1e8;
+  --text-secondary: #cfc9b8;
+  --text-tertiary: #8f8a7a;
+  --border-light: rgba(255, 255, 255, 0.14);
+  --font-pixel: "Press Start 2P", monospace;
+  --font-body: "Pixelify Sans", sans-serif;
+  --font-mono: "VT323", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background: var(--obsidian);
+  image-rendering: pixelated;
+}
+
+body {
+  background:
+    radial-gradient(circle at 15% 10%, rgba(76, 233, 224, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 85% 90%, rgba(176, 106, 255, 0.08) 0%, transparent 45%),
+    repeating-linear-gradient(0deg, #0f0c18 0px, #0f0c18 2px, #120f1c 2px, #120f1c 4px),
+    var(--obsidian);
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--obsidian-2); }
+::-webkit-scrollbar-thumb { background: var(--stone-dark); border: 2px solid var(--obsidian-2); }
+::-webkit-scrollbar-thumb:hover { background: var(--diamond-dark); }
+
+h1, h2, h3, .font-pixel { font-family: var(--font-pixel); letter-spacing: 0.5px; }
+.mono { font-family: var(--font-mono); }
+
+/* ---------- Blocky bevel panel (core visual motif) ---------- */
+.mc-panel {
+  background: var(--panel);
+  border: 4px solid #000;
+  box-shadow:
+    inset 3px 3px 0 rgba(255, 255, 255, 0.12),
+    inset -3px -3px 0 rgba(0, 0, 0, 0.55),
+    4px 4px 0 rgba(0, 0, 0, 0.45);
+  position: relative;
+}
+
+.mc-panel-inset {
+  background: var(--obsidian-2);
+  border: 3px solid #000;
+  box-shadow:
+    inset -2px -2px 0 rgba(255, 255, 255, 0.06),
+    inset 2px 2px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- Blocky button ---------- */
+.mc-btn {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--text-primary);
+  background: var(--stone);
+  border: 3px solid #000;
+  padding: 10px 14px;
+  cursor: pointer;
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.35),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.45);
+  transition: transform 0.08s ease, filter 0.08s ease;
+  text-transform: uppercase;
+  user-select: none;
+}
+.mc-btn:hover { filter: brightness(1.15); }
+.mc-btn:active { transform: translateY(2px); box-shadow: inset 2px 2px 0 rgba(0,0,0,0.3); }
+.mc-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.mc-btn-primary { background: var(--emerald); color: #0a2818; }
+.mc-btn-primary:hover { background: #4be895; }
+
+.mc-btn-accent { background: var(--diamond); color: #062a28; }
+.mc-btn-accent:hover { background: #6cf1e8; }
+
+.mc-btn-danger { background: var(--redstone); color: #2a0606; }
+
+.mc-btn-ghost {
+  background: transparent;
+  border: 3px solid var(--border-light);
+  box-shadow: none;
+  color: var(--text-secondary);
+}
+.mc-btn-ghost:hover { border-color: var(--diamond); color: var(--diamond); }
+
+/* ---------- Blocky slider ---------- */
+input[type="range"].mc-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 14px;
+  background: var(--obsidian-2);
+  border: 2px solid #000;
+  box-shadow: inset 2px 2px 0 rgba(0,0,0,0.6);
+  margin: 0;
+}
+input[type="range"].mc-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 22px;
+  background: var(--gold);
+  border: 3px solid #000;
+  cursor: pointer;
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,0.5), inset -2px -2px 0 rgba(0,0,0,0.4);
+  margin-top: -4px;
+}
+input[type="range"].mc-range::-moz-range-thumb {
+  width: 18px;
+  height: 22px;
+  background: var(--gold);
+  border: 3px solid #000;
+  cursor: pointer;
+}
+
+/* ---------- Pixel heart risk meter ---------- */
+.pixel-heart {
+  width: 16px;
+  height: 14px;
+  display: inline-block;
+  background: var(--redstone);
+  clip-path: polygon(
+    50% 100%, 10% 60%, 0% 30%, 15% 0%, 35% 0%, 50% 15%,
+    65% 0%, 85% 0%, 100% 30%, 90% 60%
+  );
+  filter: drop-shadow(0 0 3px rgba(255, 75, 75, 0.6));
+}
+.pixel-heart.empty { background: #3a2020; filter: none; }
+
+/* ---------- Item slot (achievement-style stat card) ---------- */
+.item-slot {
+  background: var(--obsidian-2);
+  border: 3px solid #000;
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.08),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.6);
+  padding: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---------- Toast / achievement popup ---------- */
+.mc-toast {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  background: var(--panel);
+  border: 3px solid #000;
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,0.15), inset -2px -2px 0 rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.6);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ---------- Loading spinner ---------- */
+@keyframes spin-block {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+.mc-spinner {
+  width: 28px;
+  height: 28px;
+  background: var(--gold);
+  border: 3px solid #000;
+  animation: spin-block 1s linear infinite;
+}
+
+@keyframes float-block {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.float-anim { animation: float-block 3s ease-in-out infinite; }
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.pulse-anim { animation: pulse-glow 1.4s ease-in-out infinite; }
+
+/* ---------- Leaflet overrides for block theme ---------- */
+.leaflet-container {
+  background: #0a0e08 !important;
+  font-family: var(--font-body);
+  outline: none;
+}
+.map-tiles { filter: brightness(0.5) saturate(1.3) contrast(1.1) hue-rotate(-4deg); opacity: 0.85; }
+
+.leaflet-pane.leaflet-overlay-pane path.district-path {
+  transition: fill 0.45s ease, fill-opacity 0.45s ease, stroke-width 0.15s ease;
+  cursor: pointer;
+}
+.leaflet-pane.leaflet-overlay-pane path.district-path-selected {
+  filter: drop-shadow(0 0 5px var(--diamond)) drop-shadow(0 0 12px rgba(76,233,224,0.6));
+}
+
+.leaflet-popup-content-wrapper {
+  background: var(--panel);
+  color: var(--text-primary);
+  border: 3px solid #000;
+  border-radius: 0;
+  font-family: var(--font-body);
+}
+.leaflet-popup-tip { background: var(--panel); border: 3px solid #000; border-radius: 0; }
+.leaflet-popup-close-button { color: var(--text-secondary) !important; }
+
+.map-zoom-btn {
+  width: 34px; height: 34px;
+  background: var(--stone);
+  border: 3px solid #000;
+  color: var(--obsidian);
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,0.35), inset -2px -2px 0 rgba(0,0,0,0.4);
+}
+.map-zoom-btn:hover { filter: brightness(1.15); }
+
+.map-tooltip {
+  position: fixed;
+  z-index: 2000;
+  pointer-events: none;
+  background: var(--panel);
+  border: 3px solid #000;
+  padding: 10px 14px;
+  min-width: 150px;
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,0.1), inset -2px -2px 0 rgba(0,0,0,0.5), 4px 4px 0 rgba(0,0,0,0.4);
+}
+.map-tooltip-name { font-family: var(--font-pixel); font-size: 10px; margin-bottom: 4px; color: var(--diamond); }
+.map-tooltip-sub { font-family: var(--font-mono); font-size: 14px; color: var(--text-secondary); }
+
+/* Permanent district name labels on the choropleth */
+.leaflet-tooltip.district-label {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 9px;
+  color: rgba(244,246,248,0.85);
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+  pointer-events: none;
+}
+.leaflet-tooltip.district-label::before { display: none; }
+
+/* ---------- Resizable panel handles ---------- */
+.resize-handle-x {
+  width: 10px;
+  flex-shrink: 0;
+  cursor: col-resize;
+  background: var(--obsidian-2);
+  border-left: 2px solid #000;
+  border-right: 2px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 4px;
+  transition: background 0.15s ease;
+}
+.resize-handle-x:hover,
+.resize-handle-x:active {
+  background: var(--diamond-dark);
+}
+.resize-handle-x .resize-grip {
+  width: 4px;
+  height: 36px;
+  background: var(--stone);
+  border: 2px solid #000;
+  pointer-events: none;
+}
+.resize-handle-x:hover .resize-grip,
+.resize-handle-x:active .resize-grip {
+  background: var(--diamond);
+}
+
+.resize-handle-y {
+  height: 10px;
+  flex-shrink: 0;
+  cursor: row-resize;
+  background: var(--obsidian-2);
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+.resize-handle-y:hover,
+.resize-handle-y:active {
+  background: var(--diamond-dark);
+}
+.resize-handle-y .resize-grip {
+  width: 36px;
+  height: 4px;
+  background: var(--stone);
+  border: 2px solid #000;
+  pointer-events: none;
+}
+.resize-handle-y:hover .resize-grip,
+.resize-handle-y:active .resize-grip {
+  background: var(--diamond);
+}
+
+/* ---------- Chat bubble typing cursor ---------- */
+@keyframes blink-cursor {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+.typing-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: var(--diamond);
+  margin-left: 2px;
+  animation: blink-cursor 0.9s step-end infinite;
+  vertical-align: middle;
+}
+
+/* ---------- Among-us style ejection intro ---------- */
+.intro-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(circle at 50% 30%, #0a1830 0%, #02040a 75%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.intro-stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20px 30px, white, transparent),
+    radial-gradient(1.5px 1.5px at 120px 80px, white, transparent),
+    radial-gradient(1px 1px at 200px 150px, white, transparent),
+    radial-gradient(1.5px 1.5px at 300px 40px, white, transparent),
+    radial-gradient(1px 1px at 400px 200px, white, transparent),
+    radial-gradient(1.5px 1.5px at 500px 100px, white, transparent),
+    radial-gradient(1px 1px at 600px 250px, white, transparent),
+    radial-gradient(1.5px 1.5px at 700px 60px, white, transparent);
+  background-repeat: repeat;
+  background-size: 800px 400px;
+  opacity: 0.6;
+}
+
+.crewmate {
+  width: 70px;
+  height: 90px;
+  position: relative;
+}
+.crewmate-body {
+  width: 100%;
+  height: 100%;
+  background: var(--redstone);
+  border-radius: 40px 40px 20px 20px / 46px 46px 16px 16px;
+  position: relative;
+  border: 3px solid #000;
+  box-shadow: inset -6px -6px 0 rgba(0,0,0,0.25);
+}
+.crewmate-visor {
+  position: absolute;
+  top: 18px;
+  left: 32px;
+  width: 34px;
+  height: 20px;
+  background: linear-gradient(135deg, #bfe8ff, #6fb8e8);
+  border-radius: 12px;
+  border: 3px solid #000;
+}
+.crewmate-backpack {
+  position: absolute;
+  top: 22px;
+  left: -8px;
+  width: 14px;
+  height: 34px;
+  background: var(--redstone-dark);
+  border: 3px solid #000;
+  border-radius: 4px;
+}
+
+/* ---------- Spotlight tutorial ---------- */
+.tutorial-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 8000;
+}
+.tutorial-spotlight {
+  position: fixed;
+  z-index: 8001;
+  border: 3px solid var(--diamond);
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.tutorial-card {
+  position: fixed;
+  z-index: 8002;
+  width: 300px;
+  background: var(--panel);
+  border: 4px solid #000;
+  box-shadow: inset 3px 3px 0 rgba(255,255,255,0.12), inset -3px -3px 0 rgba(0,0,0,0.55), 6px 6px 0 rgba(0,0,0,0.5);
+  padding: 16px;
+}
