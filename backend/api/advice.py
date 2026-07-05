@@ -2,13 +2,22 @@
 advice.py
 ---------
 Generates Golem's chat-style explanation of a prediction result, using
-a locally running Ollama model (default: gemma:2b). Golem talks like a
-sharp, friendly climate analyst -- not a form letter -- and returns one
-flowing markdown message so the frontend can render it in a chat bubble
-with a typewriter/streaming effect.
+either a locally running Ollama model (default: gemma:2b), Google's
+Gemini API, or OpenAI -- picked at runtime based on which environment
+variables are set. Golem talks like a sharp, friendly climate analyst
+-- not a form letter -- and returns one flowing markdown message so the
+frontend can render it in a chat bubble with a typewriter/streaming
+effect.
 
-If Ollama isn't running, we fall back to a templated message so the
-demo never breaks, but the primary path is a genuine LLM call.
+Provider selection priority (mirrors the JS getOpenAIClient() pattern):
+  1. OLLAMA_HOST set        -> native Ollama generate API at that host
+  2. GEMINI_API_KEY set     -> Gemini via its OpenAI-compatible endpoint
+  3. OPENAI_API_KEY set     -> OpenAI chat completions
+  4. none of the above      -> default local Ollama (http://localhost:11434)
+
+If the selected provider call fails for any reason, we fall back to a
+templated message so the demo never breaks, but the primary path is a
+genuine LLM call.
 """
 
 import os
@@ -17,13 +26,27 @@ import urllib.request
 import urllib.error
 
 
-def _env(name, default):
+def _env(name, default=None):
     return os.environ.get(name, default)
 
 
-OLLAMA_URL = _env("OLLAMA_URL", "http://localhost:11434/api/generate")
+# --- Ollama config -----------------------------------------------------
+OLLAMA_HOST = _env("OLLAMA_HOST")  # e.g. "http://some-remote-host:11434"
+OLLAMA_URL = _env("OLLAMA_URL", f"{OLLAMA_HOST or 'http://localhost:11434'}/api/generate")
 OLLAMA_MODEL = _env("OLLAMA_MODEL", "gemma:2b")
 
+# --- Gemini config (via OpenAI-compatible endpoint) ---------------------
+GEMINI_API_KEY = _env("GEMINI_API_KEY")
+GEMINI_MODEL = _env("GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_BASE_URL = _env(
+    "GEMINI_BASE_URL",
+    "https://generativelanguage.googleapis.com/v1beta/openai/",
+)
+
+# --- OpenAI config -------------------------------------------------------
+OPENAI_API_KEY = _env("OPENAI_API_KEY")
+OPENAI_MODEL = _env("OPENAI_MODEL", "gpt-5-mini")
+OPENAI_BASE_URL = _env("OPENAI_BASE_URL", "https://api.openai.com/v1/")
 
 def _build_prompt(prediction: dict, inputs: dict, district):
     where = f" focused on {district} district" if district else " for Bangladesh overall"
@@ -91,25 +114,116 @@ Bottom line: the sliders you picked point to a {sev} scenario -- small changes n
     return {"message": message, "source": "fallback-template"}
 
 
-def generate_advice(prediction: dict, inputs: dict, district=None):
-    prompt = _build_prompt(prediction, inputs, district)
+def _call_ollama_generate(prompt: str, url: str, model: str, timeout=30):
+    """Native Ollama /api/generate call (raw completion, not chat)."""
     body = json.dumps({
-        "model": OLLAMA_MODEL,
+        "model": model,
         "prompt": prompt,
         "stream": False,
     }).encode("utf-8")
 
     req = urllib.request.Request(
-        OLLAMA_URL, data=body, headers={"Content-Type": "application/json"}, method="POST"
+        url, data=body, headers={"Content-Type": "application/json"}, method="POST"
     )
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        raw = json.loads(resp.read().decode("utf-8"))
+        return raw.get("response", "").strip()
+
+
+def _call_openai_compatible(base_url: str, api_key: str, model: str, prompt: str,
+                             extra_body=None, timeout=30):
+    """
+    Chat-completions call against any OpenAI-compatible endpoint
+    (used for both real OpenAI and Gemini's OpenAI-compat layer).
+    """
+    url = base_url.rstrip("/") + "/chat/completions"
+    payload = {
+        "model": model,
+        "messages": [{"role": "user", "content": prompt}],
+        "stream": False,
+    }
+    if extra_body:
+        payload.update(extra_body)
+
+    body = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(
+        url,
+        data=body,
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {api_key}",
+        },
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        raw = json.loads(resp.read().decode("utf-8"))
+        choices = raw.get("choices", [])
+        if not choices:
+            return ""
+        return (choices[0].get("message", {}).get("content") or "").strip()
+
+
+def _resolve_provider():
+    """
+    Mirrors the JS getOpenAIClient() priority:
+      1. OLLAMA_HOST set   -> ollama
+      2. GEMINI_API_KEY    -> gemini
+      3. OPENAI_API_KEY    -> openai
+      4. default           -> ollama (localhost)
+    """
+    print(type(OLLAMA_HOST), OLLAMA_HOST)
+    if OLLAMA_HOST:
+        return "ollama"
+    if GEMINI_API_KEY:
+        return "gemini"
+    if OPENAI_API_KEY:
+        return "openai"
+    return "ollama"
+
+
+def generate_advice(prediction: dict, inputs: dict, district=None):
+    prompt = _build_prompt(prediction, inputs, district)
+    provider = _resolve_provider()
+    print(provider)
 
     try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            raw = json.loads(resp.read().decode("utf-8"))
-            text = raw.get("response", "").strip()
-            if not text:
-                return _fallback_advice(prediction, district)
-            return {"message": text, "source": f"ollama:{OLLAMA_MODEL}"}
-    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, ConnectionRefusedError, OSError) as exc:
-        print(f"[advice] Ollama call failed ({OLLAMA_MODEL} @ {OLLAMA_URL}): {exc} -- using fallback template")
+        if provider == "gemini":
+            text = _call_openai_compatible(
+                GEMINI_BASE_URL,
+                GEMINI_API_KEY,
+                GEMINI_MODEL,
+                prompt,
+                extra_body={
+                    "extra_body": {
+                        "google": {
+                            "thinking_config": {
+                                "thinking_level": "minimal"
+                            }
+                        }
+                    }
+                },
+            )
+            source = f"gemini:{GEMINI_MODEL}"
+
+        elif provider == "openai":
+            text = _call_openai_compatible(
+                OPENAI_BASE_URL,
+                OPENAI_API_KEY,
+                OPENAI_MODEL,
+                prompt,
+            )
+            source = f"openai:{OPENAI_MODEL}"
+
+        else:  # ollama
+            text = _call_ollama_generate(prompt, OLLAMA_URL, OLLAMA_MODEL)
+            source = f"ollama:{OLLAMA_MODEL}"
+
+        if not text:
+            return _fallback_advice(prediction, district)
+        return {"message": text, "source": source}
+
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError,
+            ConnectionRefusedError, OSError, KeyError, ValueError) as exc:
+        print(exc)
+        print(f"[advice] {provider} call failed: {exc} -- using fallback template")
         return _fallback_advice(prediction, district)
