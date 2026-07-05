@@ -1,60 +1,38 @@
-# 🧊 NerVEOUSai
+# NerVEOUSai
 
-**Bangladesh Climate Craft — an AI-powered, block-world styled climate risk simulator.**
+A climate risk simulator for Bangladesh. Here's what you can actually do with it:
 
-Drag sliders for temperature, sea level, rainfall, cyclones, humidity, river overflow, and
-deforestation — five independently trained ML models predict flood risk, crop loss,
-migration, disease risk, and economic damage in real time. A real 64-district Bangladesh
-choropleth heatmap recolors live, and **Golem**, a local LLM (via Ollama), explains what
-it all means in a chat panel with a genuine streaming/typewriter effect.
+## Play with the sliders
+Seven sliders control the scenario — temperature increase, sea level rise, rainfall change, cyclone intensity, humidity, river overflow, and deforestation. Move any of them and everything else on screen (the map, the stats, the chart) updates live, driven by real model predictions, not a lookup table.
 
-First visit to a tab gets an Among Us-style "ejection" intro + a Gen-Z-toned spotlight
-walkthrough. Refreshing the page does **not** replay it (uses `sessionStorage`); opening a
-new tab does.
+## Jump to a year
+There's a year slider from 2025 to 2100. Drag it and hit "Auto-fill" to instantly load climate values interpolated for that year. There are also four one-click presets: Today, Paris Target, Business as Usual, and Worst Case — each one sets all seven sliders at once to a realistic scenario for that future.
 
-No hardcoded `if temperature > 3: flood = high` logic — every number comes out of a
-trained model running inference against your slider inputs.
+## Hit randomize
+One button scrambles all seven sliders to random values, if you just want to see what an extreme or weird scenario looks like.
 
----
+## Explore the map
+A real map of Bangladesh with all 64 districts, color-coded by risk (green = safe, red = severe). You can:
+- Zoom and pan around the country
+- Hover over any district to see its division, whether it's coastal, and its current risk score
+- Click a district to select it — the map highlights it and the rest of the app (like Golem) starts talking about that specific district instead of the whole country
+- District labels thin out automatically as you zoom out so it doesn't turn into text soup, and thicken back up as you zoom in
 
-## 1. Project structure
+## Read the stats
+Below the map, five live numbers: flood risk, crop loss, migration, disease risk, and economic damage, all animating/counting up as they change. There's also an overall severity rating (shown as a row of hearts, like a video game health bar) and a small chart showing how risk trends from 2025 to 2100 for reference.
 
-```
-nerveous-ai/
-├── backend/
-│   ├── data/
-│   │   ├── generate_dataset.py        # builds the synthetic training dataset
-│   │   └── bangladesh_climate_ai_1000.csv
-│   ├── train/
-│   │   └── train_all_models.py        # trains & saves all 5 models
-│   ├── models/                        # .pkl files (already trained, included)
-│   ├── api/
-│   │   ├── predict.py                 # loads models, runs inference
-│   │   ├── districts.py               # all 64 real districts + vulnerability weights
-│   │   └── advice.py                  # Golem / Ollama LLM call + safe fallback
-│   ├── main.py                        # FastAPI app + all routes
-│   └── requirements.txt
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── ControlPanel.jsx       # sliders + year time machine + presets
-│   │   │   ├── RiskMap.jsx            # real Bangladesh district choropleth (Leaflet)
-│   │   │   ├── GolemChat.jsx         # streaming AI chat panel (top right)
-│   │   │   ├── StatsRow.jsx           # animated stat slots + trend chart
-│   │   │   └── Tutorial.jsx           # Among Us intro + spotlight walkthrough
-│   │   ├── data/
-│   │   │   ├── bd-districts.geo.json  # real 64-district boundaries (simplified)
-│   │   │   └── districts.json         # division / coastal / vulnerability metadata
-│   │   ├── hooks/useIntroOnce.js      # sessionStorage-based "show once per tab" logic
-│   │   ├── utils/sound.js             # synthesized 8-bit SFX (no audio files needed)
-│   │   ├── utils/riskStyle.js         # heatmap color ramp
-│   │   ├── pages/Home.jsx             # orchestrates everything
-│   │   ├── api.js, App.jsx, main.jsx, index.css
-│   ├── index.html
-│   ├── package.json
-│   └── vite.config.js
-└── README.md
-```
+## Ask Golem
+There's an AI chat panel on the side. Click "Ask Golem about [district/Bangladesh]" and it writes an explanation of what the current scenario actually means in plain language — streamed out character by character like it's typing. If you've selected a district, it talks about that district specifically; otherwise it talks about the country as a whole. It quietly tells you whether the answer came from a real local AI model or a canned fallback, so you always know what you're reading.
+
+## Resize the layout
+The three main panels (controls, map, chat) and the stats strip at the bottom can all be resized by dragging the dividers between them. Your layout preference is remembered.
+
+## First-time walkthrough
+The very first time you open the app in a tab, you get a short animated intro and a guided tour pointing out what each panel does. Refresh the page and it won't replay — open a brand new tab and it will.
+
+## Sound
+Small 8-bit sound effects play for clicks, slider drags, and messages, giving the whole thing a retro game feel. No audio files involved — it's all generated on the fly.
+
 
 ## 2. Requirements
 
@@ -81,8 +59,6 @@ cd data && python generate_dataset.py && cd ..
 cd train && python train_all_models.py && cd ..
 ```
 
-Verify: http://localhost:8000/health should show `"districts_loaded": 64`.
-Interactive API docs: http://localhost:8000/docs
 
 ## 4. Frontend setup
 
@@ -111,83 +87,4 @@ export OLLAMA_URL=http://localhost:11434/api/generate
 export OLLAMA_MODEL=gemma:2b
 ```
 
-## 6. The real map
 
-`frontend/src/data/bd-districts.geo.json` contains **actual simplified administrative
-boundaries for all 64 Bangladesh districts** (sourced from public ADM2 boundary data,
-geometry-simplified with mapshaper for a fast, clean render). Every district polygon is
-keyed by its exact name, and the backend's `/predict/districts` endpoint returns
-predictions keyed by those same 64 names — so the map always has a color for every
-district, with zero missing or orphaned polygons.
-
-District risk is calculated by taking the national AI prediction and scaling it per
-district using vulnerability multipliers derived from each district's coastal exposure
-and delta position (see `backend/api/districts.py`).
-
-## 7. How the AI models work
-
-| # | Output | Model | Why |
-|---|--------|-------|-----|
-| 1 | `flood_risk_pct` | XGBoost Regressor | non-linear interaction between sea level, river overflow & cyclones |
-| 2 | `crop_loss_pct` | Random Forest Regressor | robust to noisy agricultural signals |
-| 3 | `migration_people` | XGBoost Regressor | handles skewed, high-variance population data |
-| 4 | `disease_risk_pct` | Neural Network (MLPRegressor) | learns smooth, humidity-driven outbreak patterns |
-| 5 | `economic_damage_usd` | Random Forest Regressor | stable on wide-range monetary targets |
-
-All five are trained on `backend/data/bangladesh_climate_ai_1000.csv`, a synthetic but
-physically-informed dataset (see `generate_dataset.py`). No public dataset combines these
-exact variables at the district level, so the generator builds one from IPCC-style
-coastal-flood sensitivity curves, per-district vulnerability weights, and randomized
-noise + non-linear interactions — keeping input→output relationships genuinely non-linear
-so the models learn real structure instead of memorizing a formula.
-
-> Note: scikit-learn's `MLPRegressor` (a true backprop-trained neural network) is used
-> instead of TensorFlow for the disease model so the whole project installs and trains in
-> under a minute with no GPU/CPU wheel headaches. See the comment block at the bottom of
-> `train_all_models.py` for a drop-in TensorFlow/Keras swap.
-
-## 8. UX features
-
-- 🚀 **Among Us-style intro** — a crewmate gets "ejected" on first visit per tab, then a
-  Gen-Z-toned welcome card and spotlight walkthrough (skippable anytime).
-- 🔄 **Refresh-safe** — intro uses `sessionStorage`, so hitting refresh keeps you right
-  where you are. Opening a brand-new tab shows the intro again.
-- 🗺️ **Real choropleth** — all 64 districts rendered from actual boundary data, labeled,
-  color-intensity-coded, click any district to select it.
-- ✦ **Golem chat** — top-right, large, genuinely streams its response character-by-
-  character (typewriter effect) with markdown formatting.
-- 🔊 **8-bit sound effects** — synthesized on the fly via Web Audio API (no audio files
-  shipped), for clicks, slider drags, alerts, and the ejection sting.
-- ❤️ **Pixel-heart severity meter** + animated "item slot" stat cards + a small risk
-  trajectory chart.
-- 🎲 **Randomize** button, 🕐 **year time machine**, and one-click scenario presets.
-
-## 9. API reference
-
-### `POST /predict`
-```json
-{
-  "temperature_increase_c": 3.2,
-  "sea_level_rise_m": 1.4,
-  "rainfall_change_pct": 20,
-  "cyclone_intensity_index": 7,
-  "humidity_pct": 81,
-  "river_overflow_index": 50,
-  "deforestation_pct": 14
-}
-```
-→ `{ flood_risk_pct, crop_loss_pct, migration_people, disease_risk_pct, economic_damage_usd, severity, composite_score }`
-
-### `POST /predict/districts`
-Same input → `{ base: {...}, districts: { "<DistrictName>": { flood_risk_pct, crop_loss_pct, migration_people, overallRisk, severity }, ... } }` for all 64 districts.
-
-### `POST /advice`
-Same input + optional `"district": "Bhola"` → `{ message: "<markdown>", source: "ollama:gemma:2b" | "fallback-template" }`
-
-### `GET /districts`
-Static metadata for all 64 districts (division, coastal flag, coordinates, multipliers).
-
----
-
-Built for an AI hackathon 🇧🇩 — predictions are AI-generated simulations for
-educational/demo purposes, not official climate forecasts.
