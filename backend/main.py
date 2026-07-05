@@ -15,6 +15,8 @@ Endpoints:
 
 import sys
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "api"))
 
@@ -25,6 +27,8 @@ from pydantic import BaseModel, Field
 from api.predict import run_prediction
 from api.districts import DISTRICTS, severity_from_flood
 from api.advice import generate_advice
+
+
 
 app = FastAPI(
     title="NerVEOUSai",
@@ -110,6 +114,7 @@ def advice(payload: AdviceInput):
         climate_fields = payload.model_dump(exclude={"district"})
         prediction = run_prediction(climate_fields)
         result = generate_advice(prediction, climate_fields, payload.district)
+        # print(prediction, result)
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Advice generation failed: {e}")

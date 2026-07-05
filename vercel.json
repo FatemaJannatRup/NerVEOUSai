@@ -1,0 +1,20 @@
+{
+  "services": {
+    "frontend": {
+      "root": "frontend/"
+    },
+    "backend": {
+      "root": "backend/",
+      "entrypoint": "main:app"
+    }
+  },
+  "regions": ["bom1"],
+  "rewrites": [
+    { "source": "/health", "destination": { "service": "backend" } },
+    { "source": "/districts", "destination": { "service": "backend" } },
+    { "source": "/predict", "destination": { "service": "backend" } },
+    { "source": "/predict/districts", "destination": { "service": "backend" } },
+    { "source": "/advice", "destination": { "service": "backend" } },
+    { "source": "/(.*)", "destination": { "service": "frontend" } }
+  ]
+}
