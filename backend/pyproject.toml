@@ -1,0 +1,20 @@
+[project]
+name = "nervousai-backend"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi==0.115.0",
+    "joblib==1.4.2",
+    "numpy==1.26.4",
+    "pydantic==2.9.2",
+    "scikit-learn==1.5.2",
+    "uvicorn[standard]==0.30.6",
+    "xgboost-cpu>=3.3.0",
+]
+[tool.vercel]
+entrypoint = "main:app"
+
+[dependency-groups]
+dev = [
+    "pandas>=2.3.3",
+]
